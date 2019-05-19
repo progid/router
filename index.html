@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Router Example</title>
+	<script src="./router.js"></script>
+	<script src="./route.js"></script>
+</head>
+<body>
+	<script>
+		const router = new Router({
+			basename: `${window.location.protocol}//${window.location.host}/#`,
+			useRouterTag: true,
+			routes: [
+				new Route('/start', () => alert('start page')),
+				new Route('/help', () => alert('help page')),
+				new Route('/', () => alert('index page')),
+			],
+		});
+	</script>
+</body>
+</html>
