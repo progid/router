@@ -5,16 +5,54 @@
 	<title>Router Example</title>
 	<script src="./router.js"></script>
 	<script src="./route.js"></script>
+	<style>
+		.menu {
+			width: 100%;
+			height: 50px;
+			display: block;
+			background: rgba(55,155,255,.1);
+			font-size: 0;
+		}
+		.menu .item {
+			width: 100px;
+			height: 100%;
+			display: inline-block;
+			background: transparent;
+			color: #fff;
+			border-right: 1px solid rgba(255,255,255,.5);
+			text-align: center;
+			font: 600 14px Verdana, sans-serif;
+			padding: 1.5% 0;
+			box-sizing: border-box;
+			text-transform: uppercase;
+			cursor: pointer;
+			transition: background .2s ease-in-out;
+		}
+		.menu .item:hover {
+			background: rgba(255,255,255,.15);
+		}
+	</style>
 </head>
 <body>
+	<nav class="menu">
+		<li onclick="router.push('/')" class="item">Home</li>
+		<li onclick="router.push('/settings')" class="item">Settings</li>
+		<li onclick="router.push('/results')" class="item">Results</li>
+		<li onclick="router.push('/help')" class="item">Help</li>
+	</nav>
+	<section class="text"></section>
 	<script>
+		
+		const makeRouteFunc = (text) => () => document.querySelector('.text').innerText = text;
+
 		const router = new Router({
-			basename: `${window.location.protocol}//${window.location.host}/#`,
+			basename: `${window.location.protocol}//${window.location.host}`,
 			useRouterTag: true,
 			routes: [
-				new Route('/start', () => alert('start page')),
-				new Route('/help', () => alert('help page')),
-				new Route('/', () => alert('index page')),
+				new Route('/settings', makeRouteFunc('Settings page')),
+				new Route('/results', makeRouteFunc('Results page')),
+				new Route('/help', makeRouteFunc('Help page')),
+				new Route('/', makeRouteFunc('Home page')),
 			],
 		});
 	</script>
