@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Router Example</title>
-	<script src="./router.js"></script>
-	<script src="./route.js"></script>
+	<script src="../router.js"></script>
+	<script src="../route.js"></script>
 	<style>
 		.menu {
 			width: 100%;
@@ -41,20 +41,6 @@
 		<li onclick="router.push('/help')" class="item">Help</li>
 	</nav>
 	<section class="text"></section>
-	<script>
-		
-		const makeRouteFunc = (text) => () => document.querySelector('.text').innerText = text;
-
-		const router = new Router({
-			basename: `${window.location.protocol}//${window.location.host}`,
-			useRouterTag: true,
-			routes: [
-				new Route('/settings', makeRouteFunc('Settings page')),
-				new Route('/results', makeRouteFunc('Results page')),
-				new Route('/help', makeRouteFunc('Help page')),
-				new Route('/', makeRouteFunc('Home page')),
-			],
-		});
-	</script>
+	<script src="./index.js"></script>
 </body>
 </html>

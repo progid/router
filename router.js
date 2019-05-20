@@ -40,15 +40,18 @@ class Router {
 	}
 
 	push(state, title, path) {
+
 		const routepath = state || path;
+
 		if(this.currentRoute && this.currentRoute.path === routepath) {
 			return null;
 		}
+		console.log(routepath, this.currentRoute.path)
 		this.open(routepath);
 		const onlyPath = state instanceof String;
 		return onlyPath
-			? window.history.pushState(null, null, routepath)
-			: window.history.pushState(state, title, routepath);
+			? window.history.pushState(null, null, this._basename+routepath)
+			: window.history.pushState(state, title, this._basename+routepath);
 	}
 
 	replace(state, title, path) {
