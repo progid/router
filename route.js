@@ -1,18 +1,16 @@
 class Route {
-	constructor(path, cb, controlledClosing) {
+	constructor(path, openCB, closeCB) {
 		this.path = path;
-		this.cb = cb;
-		this.controlledClosing = controlledClosing || false;
-		this.canIClose = !this.controlledClosing
+		this.openCB = openCB;
+		this.closeCB = closeCB;
 	}
-	close() {
-		this.canIClose = true;
-	}
+
 	willOpen() {
-		return this.cb();
+		return this.openCB(this);
 	}
 	willClose() {
-		console.log(this.path + ' will be closed');
-
+		return this.closeCB
+			? this.closeCB(this)
+			: null;
 	}
 }

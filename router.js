@@ -22,7 +22,6 @@ class Router {
 
 		routes.forEach(item => this.addRoute(item));
 		this.open(window.location.href.replace(basename, ''))
-		window.addEventListener('popstate', () => this.open(window.location.href.replace(basename, '')), false);
 	}
 
 	addRoute(route) {
@@ -40,13 +39,10 @@ class Router {
 	}
 
 	push(state, title, path) {
-
 		const routepath = state || path;
-
 		if(this.currentRoute && this.currentRoute.path === routepath) {
 			return null;
 		}
-		console.log(routepath, this.currentRoute.path)
 		this.open(routepath);
 		const onlyPath = state instanceof String;
 		return onlyPath
@@ -67,13 +63,16 @@ class Router {
 
 	open(path) {
 		this.previousRoute = this.currentRoute;
-		this.willLeaveFromRoute()
+		this.willLeaveFromRoute();
 		this.currentRoute = this.getRoute(path);
-		this.willEnterOnRoute()
+		this.willEnterOnRoute();
+		return true;
 	}
 
 	willEnterOnRoute() {
-		return this.currentRoute.willOpen();
+		return this.currentRoute
+			? this.currentRoute.willOpen()
+			: null;
 	}
 
 	willLeaveFromRoute(path) {
