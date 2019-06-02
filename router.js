@@ -15,17 +15,19 @@ new Router({
 class Router {
 	constructor(o) {
 		const { routes, basename, useRouterTag } = o;
+
 		this._routes = new Map();
 		this._basename = basename || '/';
 		this._useRouterTag = useRouterTag || false;
 		this._tagName = useRouterTag instanceof String ? useRouterTag : 'router-connected-link';
+		this._popstateHandlerLink = this.registerPopstateHandler(() => this.open(window.location.href.replace(basename, '')));
 
 		routes.forEach(item => this.addRoute(item));
-		this.open(window.location.href.replace(basename, ''))
+		this.open(window.location.href.replace(basename, ''));
 	}
 
-	addRoute(route) {
-		return this._routes.has(route.path)
+	addRoute(route, override=false) {
+		return this._routes.has(route.path) && !override
 			? null
 			: this._routes.set(route.path, route);
 	}
@@ -51,14 +53,23 @@ class Router {
 	}
 
 	replace(state, title, path) {
-		this.open(path);
-		window.history.replaceState(state, title, path);
+		const routepath = state || path;
+		if(this.currentRoute && this.currentRoute.path === routepath) {
+			return null;
+		}
+		this.open(routepath);
+		const onlyPath = state instanceof String;
+		return onlyPath
+			? window.history.replaceState(null, null, this._basename+routepath)
+			: window.history.replaceState(state, title, this._basename+routepath);
 	}
 
 	getRoute(path) {
 		return this._routes.has(path)
 			? this._routes.get(path)
-			: null;
+			: this._routes.has('?404')
+				? this._routes.get('?404')
+				: null;
 	}
 
 	open(path) {

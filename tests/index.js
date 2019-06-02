@@ -3,6 +3,7 @@ const makeRouteFunc = (text) => ({ path }) => {
 	document.querySelector('.text').innerText = text;
 	if (path === '/help') {
 		router.addRoute(new Route('/br', makeRouteFunc('Best Recs')))
+		router.addRoute(new Route('/', makeRouteFunc('Home2 Recs')), true)
 	}
 }
 
