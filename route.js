@@ -29,3 +29,5 @@ class Route {
 			: null;
 	}
 }
+
+export default Route;

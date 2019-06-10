@@ -3,9 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Router Example</title>
-	<script src="../router.js"></script>
-	<script src="../route.js"></script>
-	<script src="../view.js"></script>
 	<style>
 		.menu {
 			width: 100%;
@@ -36,13 +33,13 @@
 </head>
 <body>
 	<nav class="menu">
-		<li onclick="router.push('/')" class="item">Home</li>
-		<li onclick="router.push('/settings')" class="item">Settings</li>
-		<li onclick="router.push('/results')" class="item">Results</li>
-		<li onclick="router.push('/br')" class="item">BestRecs</li>
-		<li onclick="router.push('/help')" class="item">Help</li>
+		<li id="root" class="item">Home</li>
+		<li id="settings" class="item">Settings</li>
+		<li id="game" class="item">game</li>
+		<li id="br" class="item">BestRecs</li>
+		<li id="help" class="item">Help</li>
 	</nav>
 	<section class="text"></section>
-	<script src="./index.js"></script>
+	<script type="module" src="./index.js"></script>
 </body>
 </html>

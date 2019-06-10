@@ -1,0 +1,4 @@
+new Route('/start', new View('start'), data => data);
+new Route('/start', new LazyView('start'), data => data);
+new ViewsBundledRoute('/start', data => data);
+new LazyViewsBundledRoute('/route', data => data);
