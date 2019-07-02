@@ -1,3 +1,5 @@
+const ROUTER_ELEMENTS_CLASS = '_router_f7e6c5ecfc4796_tag';
+
 class View {
 	static load = path => fetch(path)
 		.then(res => res.json())
@@ -9,10 +11,10 @@ class View {
 				const tagNode = document.createElement(tag);
 				if(content) {
 					tagNode.appendChild(
-						document.createTextNode(tag, content)
+						document.createTextNode(content)
 					);
 				}
-				Object.keys(attrs)
+				Object.keys(attrs || {})
 					.forEach((key) => tagNode.setAttribute(key, attrs[key]));
 				return tagNode;
 			})
@@ -22,7 +24,7 @@ class View {
 			}, document.createDocumentFragment());
 	};
 
-	buildSection(tagname, section) {
+	buildBodySection(tagname, section) {
 		const newSectionNode = document.createElement(tagname);
 		const { attributes } = document[tagname];
 
@@ -40,15 +42,46 @@ class View {
 		return newSectionNode;
 	};
 
+	buildHeadSection(tagname, section) {
+		const newSectionNode = document.createElement(tagname);
+		const { attributes } = document[tagname];
+
+		const scripts = this.buildTag(section.scripts);
+		const styles = this.buildTag(section.styles);
+
+		newSectionNode.innerHTML = section.content ? section.content : document[tagname].innerHTML;
+		Array.prototype.forEach.call(
+			attributes,
+			({ name, value }) => newSectionNode.setAttribute(name, value),
+		);
+		newSectionNode.appendChild(styles);
+		newSectionNode.appendChild(scripts);
+
+		return newSectionNode;
+	};
+
+	rebuildHead(head) {
+
+	}
+
+	rebuildBody(body) {
+		return body.parentNode.replaceChild(this.body, body);
+	}
+
 	constructor(view, data) {
-		this.body = this.buildSection('body', view.body);
-		this.head = this.buildSection('head', view.head);
+		this.body = this.buildBodySection(view.body);
+		this.head = this.buildHeadSection(view.head);
 	};
 
 	show() {
-		document.body.parentNode.replaceChild(this.body, document.body);
-		document.head.parentNode.replaceChild(this.head, document.head);
+		this.rebuildHead(document.head, ROUTER_ELEMENTS_CLASS);
+		this.rebuildBody(document.body, ROUTER_ELEMENTS_CLASS);
 	};
+
+	hide() {
+		this.destructBody(document.head, ROUTER_ELEMENTS_CLASS);
+		this.destructHead(document.head, ROUTER_ELEMENTS_CLASS);
+	}
 };
 
 export default View;
