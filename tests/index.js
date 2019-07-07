@@ -4,24 +4,29 @@ import View from '../View.js';
 import ViewsBundledRoute from '../ViewsBundledRoute.js';
 
 const makeRouteFunc = (text) => ({ path }) => {
-	document.querySelector('.text').innerText = text;
+	// document.querySelector('.text').innerText = text;
+	document.body.innerHTML = path;
 	if (path === '/help') {
 		router.addRoute(new Route('/br', makeRouteFunc('Best Recs')))
 		router.addRoute(new Route('/', makeRouteFunc('Home2 Recs')), true)
 	}
 }
 
+const dynamicRoute = View.load('./out.json').then(r => (new View(r['game.html'], {})));
+
 const router = new Router({
 	basename: `${window.location.protocol}//${window.location.host}/tests`,
 	useRouterTag: true,
 	routes: [
 		new Route('/settings', makeRouteFunc('Settings page')),
-		new Route('/game', () => View.load('./out.json').then(r => (new View(r['game.html'], {})).show())),
+		new Route('/game', () => !console.log(dynamicRoute) && dynamicRoute.then(target => target.show()), () => !console.log(dynamicRoute) && dynamicRoute.then(target => target.hide())),
 		new Route('/help', makeRouteFunc('Help page')),
 		new Route('/', makeRouteFunc('Home page')),
 		new Route(makeRouteFunc('404 not found'))
 	],
 });
+
+window.xxx = router;
 
 function init() {
 	window.z = new ViewsBundledRoute('/settings', makeRouteFunc('Settings page'));
@@ -38,4 +43,4 @@ function init() {
 	);
 };
 
-init();
+window.onload = init;

@@ -1,6 +1,5 @@
-const ROUTER_ELEMENTS_CLASS = '_router_f7e6c5ecfc4796_tag';
-
 class View {
+
 	static load = path => fetch(path)
 		.then(res => res.json())
 		.catch(err => err);
@@ -24,7 +23,8 @@ class View {
 			}, document.createDocumentFragment());
 	};
 
-	buildBodySection(tagname, section) {
+	buildBodySection(section) {
+		const tagname = 'body';
 		const newSectionNode = document.createElement(tagname);
 		const { attributes } = document[tagname];
 
@@ -42,45 +42,71 @@ class View {
 		return newSectionNode;
 	};
 
-	buildHeadSection(tagname, section) {
-		const newSectionNode = document.createElement(tagname);
-		const { attributes } = document[tagname];
+	buildHeadSection(section) {
 
 		const scripts = this.buildTag(section.scripts);
 		const styles = this.buildTag(section.styles);
 
-		newSectionNode.innerHTML = section.content ? section.content : document[tagname].innerHTML;
-		Array.prototype.forEach.call(
-			attributes,
-			({ name, value }) => newSectionNode.setAttribute(name, value),
-		);
-		newSectionNode.appendChild(styles);
-		newSectionNode.appendChild(scripts);
+		this.headTags = {
+			scriptsFragment: scripts,
+			scripts: scripts.querySelectorAll('*'),
+			styles: styles.querySelectorAll('*'),
+			stylesFragment: styles,
+		}
+		console.log(this.headTags)
+		window.fdf = {scripts, styles};
 
-		return newSectionNode;
+		// newSectionNode.innerHTML = section.content ? section.content : document[tagname].innerHTML;
+		// Array.prototype.forEach.call(
+		// 	attributes,
+		// 	({ name, value }) => newSectionNode.setAttribute(name, value),
+		// );
+		// newSectionNode.appendChild(styles);
+		// newSectionNode.appendChild(scripts);
+
+		// return newSectionNode;
 	};
 
-	rebuildHead(head) {
-
+	rebuildBody() {
+		return document.body.parentNode.replaceChild(this.body.cloneNode(true), document.body);
 	}
 
-	rebuildBody(body) {
-		return body.parentNode.replaceChild(this.body, body);
+	rebuildHead(head) {
+		document.head.appendChild(this.headTags.stylesFragment.cloneNode(true));
+		document.head.appendChild(this.headTags.scriptsFragment.cloneNode(true));
+	}
+
+	destructBody() {
+		this.headBody.querySelectorAll('*')
+			.forEach(node => node.remove());
+	}
+	
+	destructHead() {
+		this.headTags.scripts
+			.forEach(node => node.remove());
+		this.headTags.styles
+			.forEach(node => node.remove());
 	}
 
 	constructor(view, data) {
+		this.headTags = null;
 		this.body = this.buildBodySection(view.body);
 		this.head = this.buildHeadSection(view.head);
+		// this.view = view;
+
+		// this.bodyTags = null;
+		// this.headTags = null;
 	};
 
 	show() {
-		this.rebuildHead(document.head, ROUTER_ELEMENTS_CLASS);
-		this.rebuildBody(document.body, ROUTER_ELEMENTS_CLASS);
+		this.rebuildHead();
+		this.rebuildBody();
 	};
 
 	hide() {
-		this.destructBody(document.head, ROUTER_ELEMENTS_CLASS);
-		this.destructHead(document.head, ROUTER_ELEMENTS_CLASS);
+		console.log('destructed')
+		// this.destructBody(document.head);
+		this.destructHead(document.head);
 	}
 };
 
