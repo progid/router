@@ -53,18 +53,6 @@ class View {
 			styles: styles.querySelectorAll('*'),
 			stylesFragment: styles,
 		}
-		console.log(this.headTags)
-		window.fdf = {scripts, styles};
-
-		// newSectionNode.innerHTML = section.content ? section.content : document[tagname].innerHTML;
-		// Array.prototype.forEach.call(
-		// 	attributes,
-		// 	({ name, value }) => newSectionNode.setAttribute(name, value),
-		// );
-		// newSectionNode.appendChild(styles);
-		// newSectionNode.appendChild(scripts);
-
-		// return newSectionNode;
 	};
 
 	rebuildBody() {
@@ -89,13 +77,9 @@ class View {
 	}
 
 	constructor(view, data) {
-		this.headTags = null;
+		// this.headTags = null;
 		this.body = this.buildBodySection(view.body);
 		this.head = this.buildHeadSection(view.head);
-		// this.view = view;
-
-		// this.bodyTags = null;
-		// this.headTags = null;
 	};
 
 	show() {
