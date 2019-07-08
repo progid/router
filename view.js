@@ -4,10 +4,13 @@ class View {
 		.then(res => res.json())
 		.catch(err => err);
 
-	buildTag(tags) {
+	buildTag(tags, isBinded=true) {
 		return tags
 			.map(({ tag, attrs, content }) => {
 				const tagNode = document.createElement(tag);
+				if(isBinded) {
+					tagNode.setAttribute('data-router-binded', '');
+				}
 				if(content) {
 					tagNode.appendChild(
 						document.createTextNode(content)
@@ -43,41 +46,31 @@ class View {
 	};
 
 	buildHeadSection(section) {
-
 		const scripts = this.buildTag(section.scripts);
 		const styles = this.buildTag(section.styles);
 
-		this.headTags = {
-			scriptsFragment: scripts,
-			scripts: scripts.querySelectorAll('*'),
-			styles: styles.querySelectorAll('*'),
-			stylesFragment: styles,
-		}
+		styles.appendChild(scripts);
+
+		return styles;
 	};
 
 	rebuildBody() {
-		return document.body.parentNode.replaceChild(this.body.cloneNode(true), document.body);
+		return document.body.parentNode
+			.replaceChild(this.body.cloneNode(true), document.body);
 	}
 
 	rebuildHead(head) {
-		document.head.appendChild(this.headTags.stylesFragment.cloneNode(true));
-		document.head.appendChild(this.headTags.scriptsFragment.cloneNode(true));
-	}
-
-	destructBody() {
-		this.headBody.querySelectorAll('*')
-			.forEach(node => node.remove());
+		return document.head
+			.appendChild(this.head.cloneNode(true));
 	}
 	
 	destructHead() {
-		this.headTags.scripts
-			.forEach(node => node.remove());
-		this.headTags.styles
+		return document.head
+			.querySelectorAll('[data-router-binded]')
 			.forEach(node => node.remove());
 	}
 
 	constructor(view, data) {
-		// this.headTags = null;
 		this.body = this.buildBodySection(view.body);
 		this.head = this.buildHeadSection(view.head);
 	};

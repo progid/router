@@ -13,6 +13,7 @@ const makeRouteFunc = (text) => ({ path }) => {
 }
 
 const dynamicRoute = View.load('./out.json').then(r => (new View(r['game.html'], {})));
+const dynamicRoute2 = View.load('./out.json').then(r => (new View(r['results.html'], {})));
 
 const router = new Router({
 	basename: `${window.location.protocol}//${window.location.host}/tests`,
@@ -20,6 +21,7 @@ const router = new Router({
 	routes: [
 		new Route('/settings', makeRouteFunc('Settings page')),
 		new Route('/game', () => !console.log(dynamicRoute) && dynamicRoute.then(target => target.show()), () => !console.log(dynamicRoute) && dynamicRoute.then(target => target.hide())),
+		new Route('/results', () => !console.log(dynamicRoute2) && dynamicRoute2.then(target => target.show()), () => !console.log(dynamicRoute2) && dynamicRoute2.then(target => target.hide())),
 		new Route('/help', makeRouteFunc('Help page')),
 		new Route('/', makeRouteFunc('Home page')),
 		new Route(makeRouteFunc('404 not found'))
