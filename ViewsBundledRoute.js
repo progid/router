@@ -1,11 +1,35 @@
 import View from './View.js';
-import Route from './Route.js';
 
-class ViewsBundledRoute extends Route {
-	constructor(path, openCB, closeCB) {
-		super(path, openCB, closeCB);
-		
-	};
+class ViewsBundledRoute {
+	constructor(path, view, data) {
+		if(typeof(path) === 'string') {
+			this.path = path || '?404';
+			this.openCB = openCB || null;
+			this.closeCB = closeCB || null;
+		}
+		if(typeof(path) === 'function') {
+			this.path = '?404';
+			this.openCB = path;
+			this.closeCB = closeCB || openCB;
+		}
+		if(typeof(path) === 'object') {
+			this.path = path.path || '?404';
+			this.openCB = o.onOpen || null;
+			this.closeCB = o.onClose || null;
+		}
+	}
+
+	willOpen() {
+		return this.openCB
+			? this.openCB(this)
+			: null;
+	}
+
+	willClose() {
+		return this.closeCB
+			? this.closeCB(this)
+			: null;
+	}
 }
 
-export default ViewsBundledRoute;
+export default Route;
