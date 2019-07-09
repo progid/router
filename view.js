@@ -60,6 +60,7 @@ class View {
 	}
 
 	rebuildHead(head) {
+		console.log('rebuilded head')
 		return document.head
 			.appendChild(this.head.cloneNode(true));
 	}
@@ -73,15 +74,19 @@ class View {
 	constructor(view, data) {
 		this.body = this.buildBodySection(view.body);
 		this.head = this.buildHeadSection(view.head);
+
+		// this.show = this.show.bind(this);
+		// this.hide = this.hide.bind(this);
 	};
 
 	show() {
+		console.log(this)
 		this.rebuildHead();
 		this.rebuildBody();
 	};
 
 	hide() {
-		console.log('destructed')
+		console.log('destructed', this);
 		// this.destructBody(document.head);
 		this.destructHead(document.head);
 	}

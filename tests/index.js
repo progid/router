@@ -13,8 +13,13 @@ const makeRouteFunc = (text) => ({ path }) => {
 
 const dynamicRoute = View.load('./out.json').then(r => (new View(r['game.html'], {})));
 const dynamicRoute2 = View.load('./out.json').then(r => (new View(r['results.html'], {})));
+// const dynamicRoutex = View.load('./out.json').then(r => new ViewsBundledRoute(new View(r['results.html'], {})));
 
-new ViewsBundledRoute('/news');
+View.load('./out.json').then(r => {
+	router.addRoute(new ViewsBundledRoute('/rezults', r['results.html'], {}));
+})
+
+// new ViewsBundledRoute(new View());
 
 
 const router = new Router({
@@ -33,7 +38,7 @@ const router = new Router({
 window.xxx = router;
 
 function init() {
-	window.z = new ViewsBundledRoute('/settings', makeRouteFunc('Settings page'));
+	// window.z = new ViewsBundledRoute('/settings', makeRouteFunc('Settings page'));
 	const paths = {
 		'/': 'root',
 		'/settings': 'settings',
