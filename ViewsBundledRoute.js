@@ -32,12 +32,12 @@ class ViewsBundledRoute {
 
 	setOpenCallback(cb) {
 		this.openCB = cb || this.openCB;
-		// return this;
+		return this;
 	}
 
 	setCloseCallback(cb) {
 		this.closeCB = cb || this.closeCB;
-		// return this;
+		return this;
 	}
 
 	willOpen() {

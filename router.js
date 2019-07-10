@@ -73,7 +73,7 @@ class Router {
 	}
 
 	open(path) {
-		this.previousRoute = this.currentRoute;
+		// this.previousRoute = this.currentRoute;
 		this.willLeaveFromRoute();
 		this.currentRoute = this.getRoute(path);
 		this.willEnterOnRoute();
@@ -81,14 +81,16 @@ class Router {
 	}
 
 	willEnterOnRoute() {
+		console.log('entered', this.currentRoute);
 		return this.currentRoute
 			? this.currentRoute.willOpen()
 			: null;
 	}
 
 	willLeaveFromRoute(path) {
-		return this.previousRoute
-			? this.previousRoute.willClose()
+		console.log('leaved', this.currentRoute);
+		return this.currentRoute
+			? this.currentRoute.willClose()
 			: null;
 	}
 

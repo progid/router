@@ -17,9 +17,8 @@ const dynamicRoute2 = View.load('./out.json').then(r => (new View(r['results.htm
 
 View.load('./out.json').then(r => {
 	router.addRoute(new ViewsBundledRoute('/rezults', r['results.html'], {}));
-})
-
-// new ViewsBundledRoute(new View());
+	router.addRoute(new ViewsBundledRoute('/game', r['game.html'], {}));
+});
 
 
 const router = new Router({
@@ -27,8 +26,8 @@ const router = new Router({
 	useRouterTag: true,
 	routes: [
 		new Route('/settings', makeRouteFunc('Settings page')),
-		new Route('/game', () => dynamicRoute.then(target => target.show()), () => dynamicRoute.then(target => target.hide())),
-		new Route('/results', () => dynamicRoute2.then(target => target.show()), () => dynamicRoute2.then(target => target.hide())),
+		// new Route('/game', () => dynamicRoute.then(target => target.show()), () => dynamicRoute.then(target => target.hide())),
+		// new Route('/results', () => dynamicRoute2.then(target => target.show()), () => dynamicRoute2.then(target => target.hide())),
 		new Route('/help', makeRouteFunc('Help page')),
 		new Route('/', makeRouteFunc('Home page')),
 		new Route(makeRouteFunc('404 not found'))
