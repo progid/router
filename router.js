@@ -73,7 +73,6 @@ class Router {
 	}
 
 	open(path) {
-		// this.previousRoute = this.currentRoute;
 		this.willLeaveFromRoute();
 		this.currentRoute = this.getRoute(path);
 		this.willEnterOnRoute();
