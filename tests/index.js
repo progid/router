@@ -1,6 +1,7 @@
 import Router from '../router.js';
 import Route from '../route.js';
 import View from '../View.js';
+import LazyView from '../lazyview.js';
 import ViewsBundledRoute from '../ViewsBundledRoute.js';
 
 const makeRouteFunc = (text) => ({ path }) => {
@@ -35,6 +36,7 @@ const router = new Router({
 });
 
 window.xxx = router;
+console.log(new LazyView('xxx'));
 
 function init() {
 	// window.z = new ViewsBundledRoute('/settings', makeRouteFunc('Settings page'));
