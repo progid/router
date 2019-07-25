@@ -4,24 +4,17 @@ class LazyView {
 	constructor(path, data) {
 		this.viewPath = path;
 		this.viewData = data;
-		this.loaded = false;
 		this.view = null;
-	}
-
-	setLoaded(_loaded) {
-		this.loaded = _loaded;
 	}
 
 	createView(data) {
 		this.view = data ? new View(data, this.viewData) : this.view;
-		this.setLoaded(true);
-
 		return this.view;
 	}
 
 	loadViewData() {
 		return View.load(this.viewPath)
-			.then(responce => createView(responce.data))
+			.then(response => createView(response.data))
 			.catch(err => console.log('View load error, ' + err));
 	}
 
