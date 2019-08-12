@@ -41,7 +41,7 @@ class Router {
 	}
 
 	push(state, title, path) {
-		const routepath = state || path;
+		const routepath = state || path || '/';
 		if(this.currentRoute && this.currentRoute.path === routepath) {
 			return null;
 		}
@@ -53,7 +53,7 @@ class Router {
 	}
 
 	replace(state, title, path) {
-		const routepath = state || path;
+		const routepath = state || path || '/';
 		if(this.currentRoute && this.currentRoute.path === routepath) {
 			return null;
 		}
